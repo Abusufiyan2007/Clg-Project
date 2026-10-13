@@ -1,0 +1,30 @@
+# SHIFA CLINIC static site lives in app/
+[build]
+  publish = "app"
+  command = ""
+
+# Keep everything on the canonical production URL
+[[redirects]]
+  from = "http://abusufiyan.netlify.app/*"
+  to = "https://abusufiyan.netlify.app/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://main--abusufiyan.netlify.app/*"
+  to = "https://abusufiyan.netlify.app/:splat"
+  status = 301
+  force = true
+
+# Never expose local backend files and data stores
+[[redirects]]
+  from = "/data/*"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/server.py"
+  to = "/404"
+  status = 404
+  force = true
