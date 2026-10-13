@@ -1281,7 +1281,7 @@ function testAudioChime() {
 
 // Digital Clinical Slip & Communications Engine
 function generateClinicalEmailHtml(app) {
-  const origin = window.location.origin || "http://127.0.0.1:3456";
+  const origin = "https://abusufiyan.netlify.app";
   const queueUrl = `${origin}/queue.html?token=${encodeURIComponent(app.token)}`;
   const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(queueUrl)}&margin=2`;
 
@@ -1389,7 +1389,7 @@ function generateClinicalEmailHtml(app) {
 }
 
 function generateWhatsAppUrl(app) {
-  const origin = window.location.origin || "http://127.0.0.1:3456";
+  const origin = "https://abusufiyan.netlify.app";
   const queueUrl = `${origin}/queue.html?token=${encodeURIComponent(app.token)}`;
   const text = `*SHIFA CLINIC — OPD TOKEN PASS*
 Token Number: *${app.token}*
@@ -1435,7 +1435,7 @@ function renderTicketQrCode(tokenCode) {
   const qrWrap = document.getElementById("ticketQrWrapper");
   if (!qrWrap) return;
 
-  const origin = window.location.origin || "http://127.0.0.1:3456";
+  const origin = "https://abusufiyan.netlify.app";
   const queueUrl = `${origin}/queue.html?token=${encodeURIComponent(tokenCode)}`;
   const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(queueUrl)}&margin=4`;
 
