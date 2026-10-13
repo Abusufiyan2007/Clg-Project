@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Medical Faculty & Consulting Physicians: SHIFA CLINIC</title>
+  <meta name="description" content="View verified medical faculty and consulting physicians at SHIFA CLINIC. Inspect qualifications, clinic timings, and book outpatient appointments.">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png?v=3.2">
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/images/favicon-192.png?v=3.2">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg?v=3.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=3.2">
+  <link rel="shortcut icon" href="favicon.ico?v=3.2">
+  <link rel="stylesheet" href="styles.css?v=3.2">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Top Announcement Bar -->
+  <aside class="announcement-bar" role="complementary">
+    <div class="container announcement-inner">
+      <div class="announcement-item">
+        <span class="status-dot"></span>
+        <span><strong>OPD Hours:</strong> Monday to Saturday: 08:30 AM to 08:30 PM | Emergency Care: Open 24 Hours</span>
+      </div>
+      <div class="announcement-item announcement-contact">
+        <span>Reception Desk: <a href="tel:+919342488966" style="color:inherit;text-decoration:none;">+91 93424 88966</a></span>
+        <button id="quickSwitchBtn" class="pill-btn pill-btn-ghost">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <span id="quickSwitchText">Front Desk Access</span>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Navigation -->
+  <header class="main-header" role="banner">
+    <div class="container header-inner">
+      <a href="index.html" class="brand-logo" aria-label="SHIFA CLINIC Home">
+        <div class="logo-mark">
+          <img src="assets/images/shifa-logo-emblem.png?v=3.2" alt="SHIFA CLINIC" class="logo-img">
+        </div>
+        <div class="brand-text">
+          <span class="brand-title">SHIFA CLINIC</span>
+        </div>
+      </a>
+
+      <nav class="nav-links" aria-label="Main Navigation">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="departments.html" class="nav-link">Departments</a>
+        <a href="doctors.html" class="nav-link active">Physicians</a>
+        <a href="queue.html" class="nav-link">Queue Status</a>
+        <a href="contact.html" class="nav-link">Emergency & Contact</a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="btn btn-secondary" id="trackTokenNavBtn" onclick="handleTrackTokenClick()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          Track Token
+        </button>
+        <button class="btn btn-primary" id="bookGeneralBtn" onclick="openBookingModal()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Book Appointment
+        </button>
+        <button class="icon-menu-btn" id="menuSettingsBtn" onclick="openSettingsModal()" aria-label="Open directory navigation and staff controls" title="Menu & Directory Navigation">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="page-main" role="main">
+
+    <!-- Page Intro Banner -->
+    <section class="page-intro-banner">
+      <div class="container">
+        <span class="section-tag">Clinical Faculty</span>
+        <h1 class="page-title">Consulting Physicians and Specialists</h1>
+        <p class="page-subtitle">
+          All consulting physicians at SHIFA CLINIC are registered medical practitioners holding board certifications in their respective specialties. Browse schedules and select a doctor to reserve your appointment.
+        </p>
+      </div>
+    </section>
+
+    <!-- Doctors Filter & Directory -->
+    <section class="section-container">
+      <div class="container">
+        <div class="section-header">
+          <div class="header-left">
+            <span class="section-tag">Directory Filter</span>
+            <h2 class="section-title">Schedule by Specialty or Doctor Name</h2>
+          </div>
+          <div class="filter-search-wrap">
+            <input type="search" id="doctorSearch" placeholder="Search doctor or specialty..." class="search-input">
+          </div>
+        </div>
+
+        <!-- Specialty Filter Tabs -->
+        <div class="specialty-pills" id="specialtyFilterGroup" role="tablist">
+          <button class="filter-pill active" data-specialty="all">All Departments</button>
+          <button class="filter-pill" data-specialty="General Medicine">General Medicine</button>
+          <button class="filter-pill" data-specialty="Cardiology">Cardiology</button>
+          <button class="filter-pill" data-specialty="Pediatrics">Pediatrics</button>
+          <button class="filter-pill" data-specialty="Orthopedics">Orthopedics</button>
+          <button class="filter-pill" data-specialty="Dermatology">Dermatology</button>
+        </div>
+
+        <!-- Doctors Grid (Rendered dynamically by app.js) -->
+        <div class="doctors-grid" id="doctorsContainer"></div>
+      </div>
+    </section>
+
+    <!-- Medical Council Registrations & Schedule Table -->
+    <section class="section-container bg-subtle">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <span class="section-tag">Verification & Accreditation</span>
+            <h2 class="section-title">Medical Council Registrations & Consultation Hours</h2>
+            <p class="section-description">
+              Official registration records verified by the Tamil Nadu Medical Council (TNMC).
+            </p>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Physician Name</th>
+                <th>Academic Qualifications</th>
+                <th>TNMC Reg. No.</th>
+                <th>OPD Room</th>
+                <th>Consulting Days</th>
+                <th>Session Timings</th>
+                <th>Consultation Fee</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Dr. Aravind Krishnan</strong></td>
+                <td>MBBS, MD (Cardiology), FACC</td>
+                <td><span style="font-family: monospace;">TN-74829</span></td>
+                <td>Room 104</td>
+                <td>Mon to Sat</td>
+                <td>10:00 AM to 01:00 PM | 05:00 PM to 07:30 PM</td>
+                <td>Rs. 600</td>
+              </tr>
+              <tr>
+                <td><strong>Dr. Sneha Parthasarathy</strong></td>
+                <td>MBBS, DCH, MD (Pediatrics)</td>
+                <td><span style="font-family: monospace;">TN-81930</span></td>
+                <td>Room 102</td>
+                <td>Mon to Sat</td>
+                <td>09:30 AM to 01:00 PM | 04:30 PM to 08:00 PM</td>
+                <td>Rs. 500</td>
+              </tr>
+              <tr>
+                <td><strong>Dr. Mohammed Farhan</strong></td>
+                <td>MBBS, MD (General Medicine)</td>
+                <td><span style="font-family: monospace;">TN-65412</span></td>
+                <td>Room 101</td>
+                <td>Mon to Sat</td>
+                <td>09:00 AM to 01:00 PM | 04:30 PM to 08:30 PM</td>
+                <td>Rs. 450</td>
+              </tr>
+              <tr>
+                <td><strong>Dr. Priya Ranganathan</strong></td>
+                <td>MBBS, MS (Orthopedics), MCh</td>
+                <td><span style="font-family: monospace;">TN-79201</span></td>
+                <td>Room 105</td>
+                <td>Mon to Sat</td>
+                <td>10:00 AM to 01:00 PM | 05:00 PM to 08:00 PM</td>
+                <td>Rs. 700</td>
+              </tr>
+              <tr>
+                <td><strong>Dr. Vikramaditya Sen</strong></td>
+                <td>MBBS, MD, DVD (Dermatology)</td>
+                <td><span style="font-family: monospace;">TN-88341</span></td>
+                <td>Room 103</td>
+                <td>Mon to Sat</td>
+                <td>04:30 PM to 08:30 PM</td>
+                <td>Rs. 550</td>
+              </tr>
+              <tr>
+                <td><strong>Dr. Ananya Balaji</strong></td>
+                <td>MBBS, MD (General Medicine)</td>
+                <td><span style="font-family: monospace;">TN-92045</span></td>
+                <td>Room 106</td>
+                <td>Mon to Sat</td>
+                <td>09:00 AM to 01:00 PM | 04:30 PM to 08:30 PM</td>
+                <td>Rs. 450</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- BOOKING DIALOG -->
+  <dialog id="bookingDialog" class="modal-dialog" closedby="any">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div>
+          <span class="modal-badge">Appointment Booking</span>
+          <h3 id="modalDoctorName">Book Appointment</h3>
+          <p id="modalDoctorMeta" class="modal-subtext">Select an open slot and enter patient details</p>
+        </div>
+        <button type="button" class="close-btn" onclick="closeBookingModal()" aria-label="Close dialog">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div id="bookingStep1" class="booking-step active">
+          <div class="form-group">
+            <label class="form-label" for="bookingDateInput">Consultation Date:</label>
+            <input type="date" id="bookingDateInput" class="select-input" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Available Slots for <span id="selectedDateDisplay" class="text-primary font-bold">Today</span>:</label>
+            <div class="session-block">
+              <span class="session-title">Morning Session (09:00 AM to 01:00 PM)</span>
+              <div class="slots-container" id="morningSlotsContainer"></div>
+            </div>
+            <div class="session-block">
+              <span class="session-title">Evening Session (04:30 PM to 08:30 PM)</span>
+              <div class="slots-container" id="eveningSlotsContainer"></div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-ghost" onclick="closeBookingModal()">Cancel</button>
+            <button type="button" class="btn btn-primary" id="goToStep2Btn" disabled onclick="goToStep(2)">
+              Continue to Details
+            </button>
+          </div>
+        </div>
+
+        <div id="bookingStep2" class="booking-step">
+          <form id="patientIntakeForm" onsubmit="event.preventDefault(); submitAppointment();">
+            <div class="booking-summary-strip">
+              <div><span class="summary-label">Physician</span><strong id="summaryDocName">-</strong></div>
+              <div><span class="summary-label">Slot</span><strong id="summarySlotTime">-</strong></div>
+              <div><span class="summary-label">Fee</span><strong id="summaryFee" class="text-success">Rs. 500</strong></div>
+            </div>
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label class="form-label" for="patientName">Patient Name *</label>
+                <input type="text" id="patientName" class="form-control" required placeholder="Full Name">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="patientPhone">Contact Number *</label>
+                <input type="tel" id="patientPhone" class="form-control" pattern="[0-9]{10}" required placeholder="10-digit mobile number">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="patientEmail">Patient Email Address *</label>
+              <input type="email" id="patientEmail" class="form-control" placeholder="patient@gmail.com (for digital OPD pass)" required>
+            </div>
+            <div class="form-grid-3">
+              <div class="form-group">
+                <label class="form-label" for="patientAge">Age *</label>
+                <input type="number" id="patientAge" class="form-control" min="1" max="120" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="patientGender">Gender *</label>
+                <select id="patientGender" class="form-control" required>
+                  <option value="">Select</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="visitType">Visit Classification</label>
+                <select id="visitType" class="form-control">
+                  <option value="First Visit">First Consultation</option>
+                  <option value="Follow-up">Follow-up Consultation</option>
+                  <option value="Routine Checkup">Routine Medical Checkup</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="patientSymptoms">Primary Symptoms</label>
+              <textarea id="patientSymptoms" class="form-control" rows="2" placeholder="Brief reason for consultation..."></textarea>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-ghost" onclick="goToStep(1)">Back</button>
+              <button type="submit" class="btn btn-primary" id="confirmBookingBtn">Confirm Appointment</button>
+            </div>
+          </form>
+        </div>
+
+        <div id="bookingStep3" class="booking-step">
+          <div class="confirmation-success-card" id="printableTicket">
+            <div class="success-icon-badge">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <span class="success-caption">Appointment Confirmed</span>
+            <h3 class="ticket-clinic-title">SHIFA CLINIC OPD Pass</h3>
+            <div class="ticket-token-display">
+              <span class="token-title">QUEUE TOKEN NUMBER</span>
+              <span class="token-code" id="confirmedTokenCode">SHF-105</span>
+            </div>
+            <div class="ticket-details-grid">
+              <div class="ticket-detail-item"><span class="detail-label">Patient:</span><span class="detail-value" id="ticketPatientName">-</span></div>
+              <div class="ticket-detail-item"><span class="detail-label">Physician:</span><span class="detail-value" id="ticketDoctorName">-</span></div>
+              <div class="ticket-detail-item"><span class="detail-label">Slot:</span><span class="detail-value" id="ticketScheduledTime">-</span></div>
+              <div class="ticket-detail-item"><span class="detail-label">Room:</span><span class="detail-value" id="ticketRoom">-</span></div>
+              <div class="ticket-detail-item"><span class="detail-label">Email:</span><span class="detail-value" id="ticketPatientEmail">-</span></div>
+            </div>
+            <div class="email-confirmation-strip" id="ticketEmailStrip">
+              <div class="email-strip-header">
+                <span class="status-dot"></span>
+                <strong>Confirmation Email Dispatched</strong>
+              </div>
+              <p class="email-strip-sub">
+                Digital consultation pass sent to <strong id="ticketEmailRecipient">-</strong>
+              </p>
+              <div class="email-strip-actions">
+                <button type="button" class="btn btn-xs btn-outline" onclick="resendCurrentBookingEmail()">Resend Email</button>
+                <a id="openMailtoLink" href="#" class="btn btn-xs btn-secondary" target="_blank" rel="noopener">Open Email</a>
+                <a id="sendWhatsAppLink" href="#" class="btn btn-xs btn-success" target="_blank" rel="noopener">WhatsApp Slip</a>
+              </div>
+            </div>
+            <div class="ticket-qr-container">
+              <div class="qr-mock" id="ticketQrWrapper" title="Token verification code">
+                <div class="qr-pattern"></div>
+              </div>
+              <p class="qr-helper-text">Scan with smartphone camera to track live waiting queue online</p>
+            </div>
+          </div>
+          <div class="modal-footer print-hide">
+            <button type="button" class="btn btn-outline" onclick="window.print()">Print Pass</button>
+            <button type="button" class="btn btn-primary" onclick="closeBookingModal()">Done</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- SETTINGS MODAL -->
+  <dialog id="settingsDialog" class="modal-dialog settings-dialog" closedby="any">
+    <div class="modal-content settings-modal-content">
+      <div class="modal-header">
+        <div>
+          <span class="modal-badge">Console Management</span>
+          <h3>Console & Staff Controls</h3>
+          <p class="modal-subtext">Manage active console session and administrative actions</p>
+        </div>
+        <button type="button" class="close-btn" onclick="closeSettingsModal()" aria-label="Close dialog">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body settings-modal-body">
+        <!-- Quick Directory Navigation -->
+        <div class="mobile-nav-group">
+          <div class="modal-section-title">Directory Navigation</div>
+          <div class="mobile-nav-pill-grid">
+            <a href="index.html" class="nav-dialog-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+              <span>Home Portal</span>
+            </a>
+            <a href="departments.html" class="nav-dialog-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+              <span>Clinical Departments</span>
+            </a>
+            <a href="doctors.html" class="nav-dialog-item active">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              <span>Consulting Physicians</span>
+            </a>
+            <a href="queue.html" class="nav-dialog-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+              <span>Live Queue Board</span>
+            </a>
+            <a href="contact.html" class="nav-dialog-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <span>Emergency & Contact</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="settings-role-box">
+          <div class="role-box-info">
+            <div class="role-icon-pill">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4B98A3" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <div>
+              <div class="role-label">RECEPTION MANAGEMENT</div>
+              <div class="role-state">Front Desk Console</div>
+            </div>
+          </div>
+          <a href="index.html#admin" class="btn btn-primary">
+            Open Front Desk Portal
+          </a>
+        </div>
+        <div class="settings-meta-footer">
+          <div><span>Facility:</span> SHIFA CLINIC, High Road, Pernambut, Tirupattur District</div>
+          <div><span>Desk Line:</span> <a href="tel:+919342488966" style="color:inherit;text-decoration:none;">+91 93424 88966</a> | <span>Status:</span> OPD Sessions Online</div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="closeSettingsModal()">Close</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Global Toast Notification Container -->
+  <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+  <!-- Isolated High-Contrast Footer -->
+  <footer class="main-footer" role="contentinfo">
+    <div class="container footer-grid">
+      <div class="footer-col brand-col">
+        <div class="footer-brand-wrap">
+          <div class="logo-mark">
+            <img src="assets/images/shifa-logo-emblem.png?v=3.2" alt="SHIFA CLINIC" class="logo-img">
+          </div>
+          <span class="footer-brand-name">SHIFA CLINIC</span>
+        </div>
+        <p class="footer-desc">
+          Outpatient Department scheduling and clinic queue management infrastructure.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-heading">Clinical Navigation</h4>
+        <ul class="footer-list">
+          <li><a href="departments.html">Clinical Departments</a></li>
+          <li><a href="doctors.html">Consulting Physicians</a></li>
+          <li><a href="queue.html">Live Queue Board</a></li>
+          <li><a href="contact.html">Emergency & Location</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-heading">Consultation Hours</h4>
+        <p class="footer-text"><strong>Morning Session:</strong> 09:00 AM to 01:00 PM</p>
+        <p class="footer-text"><strong>Evening Session:</strong> 04:30 PM to 08:30 PM</p>
+        <p class="footer-text"><strong>Emergency Intake:</strong> Open 24 Hours</p>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-heading">Clinic Location</h4>
+        <p class="footer-text">#42, High Road (Opposite Clock Tower, Near Old Bus Stand), Pernambut, Tirupattur District, Tamil Nadu 635810</p>
+        <p class="footer-text">Desk Email: <a href="mailto:desk@shifaclinic.com">desk@shifaclinic.com</a></p>
+        <p class="footer-text">Reception Phone: <strong><a href="tel:+919342488966" style="color:inherit;text-decoration:none;">+91 93424 88966</a></strong></p>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="footer-bottom-bar">
+        <span>SHIFA CLINIC. All rights reserved.</span>
+        <span>Pernambut, Tirupattur District, Tamil Nadu 635810</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js?v=3.2"></script>
+</body>
+</html>

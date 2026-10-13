@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SHIFA CLINIC: Outpatient Appointments and Live Queue Management</title>
+  <meta name="description"
+    content="SHIFA CLINIC outpatient booking system. Schedule doctor consultations and track live clinic waiting times.">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png?v=3.2">
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/images/favicon-192.png?v=3.2">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg?v=3.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=3.2">
+  <link rel="shortcut icon" href="favicon.ico?v=3.2">
+  <link rel="stylesheet" href="styles.css?v=3.2">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap"
+    rel="stylesheet">
+</head>
+
+<body>
+
+  <!-- Top Information Bar -->
+  <aside class="announcement-bar" role="complementary">
+    <div class="container announcement-inner">
+      <div class="announcement-item">
+        <span class="status-dot"></span>
+        <span><strong>OPD Hours:</strong> Monday to Saturday: 08:30 AM to 08:30 PM | Emergency Care: Open 24
+          Hours</span>
+      </div>
+      <div class="announcement-item announcement-contact">
+        <span>Reception Desk: <a href="tel:+919342488966" style="color:inherit;text-decoration:none;">+91 93424
+            88966</a></span>
+        <button id="quickSwitchBtn" class="pill-btn pill-btn-ghost">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+            <circle cx="9" cy="7" r="4" />
+            <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+          </svg>
+          <span id="quickSwitchText">Front Desk Access</span>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Navigation -->
+  <header class="main-header" role="banner">
+    <div class="container header-inner">
+      <a href="#" class="brand-logo" aria-label="SHIFA CLINIC Home">
+        <div class="logo-mark">
+          <img src="assets/images/shifa-logo-emblem.png?v=3.2" alt="SHIFA CLINIC" class="logo-img">
+        </div>
+        <div class="brand-text">
+          <span class="brand-title">SHIFA CLINIC</span>
+        </div>
+      </a>
+
+      <nav class="nav-links" aria-label="Main Navigation">
+        <a href="index.html" class="nav-link active">Home</a>
+        <a href="departments.html" class="nav-link">Departments</a>
+        <a href="doctors.html" class="nav-link">Physicians</a>
+        <a href="queue.html" class="nav-link">Queue Status</a>
+        <a href="contact.html" class="nav-link">Emergency & Contact</a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="btn btn-secondary" id="trackTokenNavBtn" onclick="handleTrackTokenClick()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8" />
+            <path d="m21 21-4.3-4.3" />
+          </svg>
+          Track Token
+        </button>
+        <button class="btn btn-primary" id="bookGeneralBtn" onclick="openBookingModal()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+            <line x1="16" y1="2" x2="16" y2="6" />
+            <line x1="8" y1="2" x2="8" y2="6" />
+            <line x1="3" y1="10" x2="21" y2="10" />
+          </svg>
+          Book Appointment
+        </button>
+        <!-- 3 Horizontal Lines Settings & Front Desk Button -->
+        <button class="icon-menu-btn" id="menuSettingsBtn" onclick="openSettingsModal()"
+          aria-label="Open directory navigation and staff controls" title="Menu & Directory Navigation">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+            stroke-linecap="round">
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- PATIENT PORTAL VIEW -->
+  <main id="patientPortal" class="active-view" role="main">
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="container">
+        <div class="hero-banner-card">
+          <div class="hero-content">
+            <!-- Top Left Brand Badge (Matches Reference Banner) -->
+            <div class="hero-brand-badge">
+              <div class="hero-brand-icon">
+                <img src="assets/images/shifa-logo-emblem.png?v=3.2" alt="SHIFA CLINIC" class="hero-brand-img">
+              </div>
+              <div class="hero-brand-titles">
+                <span class="hero-brand-name">SHIFA CLINIC</span>
+              </div>
+            </div>
+
+            <!-- Outpatient Department Scheduling Pill -->
+            <div class="badge-pill">
+              <span class="status-dot"></span>
+              <span>Outpatient Department Scheduling</span>
+            </div>
+
+            <!-- Main Headline -->
+            <h1 class="hero-heading">
+              Your Health, Our Priority
+            </h1>
+
+            <!-- Subtext -->
+            <p class="hero-subtext">
+              Compassionate Care for You and Your Family • Certified Outpatient Consultations and Live Queue Management
+              in Pernambut.
+            </p>
+
+            <!-- Buttons Group -->
+            <div class="hero-cta-group">
+              <button class="btn btn-hero-schedule" id="heroBookBtn">
+                Schedule Appointment
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </button>
+              <a href="#live-queue" class="btn btn-hero-tokens">
+                Check Current Tokens
+              </a>
+            </div>
+
+            <!-- 3 Info Cards -->
+            <div class="hero-info-strip">
+              <div class="info-block">
+                <span class="info-label">CLINIC LOCATION</span>
+                <span class="info-value">High Road, Pernambut</span>
+              </div>
+              <div class="info-block">
+                <span class="info-label">DAILY TIMINGS</span>
+                <span class="info-value">08:30 AM to 08:30 PM</span>
+              </div>
+              <div class="info-block">
+                <span class="info-label">RECEPTION LINE</span>
+                <span class="info-value"><a href="tel:+919342488966">+91 93424 88966</a></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Doctor visual for mobile & tablet screens -->
+          <div class="hero-mobile-doctor">
+            <img src="assets/images/hero-doctor-asset.png?v=2.9" alt="Consultant Doctor at Shifa Clinic Pernambut"
+              class="hero-mobile-doc-img">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Real-time Token Tracker Section -->
+    <section class="section-container bg-subtle" id="live-queue">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="section-tag">Queue Status</span>
+          <h2 class="section-title">Live Consultation Queue</h2>
+          <p class="section-description">
+            Enter your token number to view your current position and estimated consultation schedule before arriving.
+          </p>
+        </div>
+
+        <div class="token-tracker-box">
+          <form id="tokenLookupForm" class="token-search-form" onsubmit="event.preventDefault(); lookupTokenStatus();">
+            <div class="input-with-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8" />
+                <path d="m21 21-4.3-4.3" />
+              </svg>
+              <input type="text" id="tokenSearchInput" placeholder="Enter Token Number (e.g. SHF-102)" required
+                autocomplete="off">
+            </div>
+            <button type="submit" class="btn btn-primary">
+              Verify Position
+            </button>
+          </form>
+
+          <!-- Lookup Result Card -->
+          <div id="tokenResultContainer" class="token-result-container hidden"></div>
+        </div>
+
+        <!-- Active OPD Rooms Grid -->
+        <div class="opd-rooms-grid" id="opdRoomsGrid">
+          <!-- Injected via JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Specialties Filter & Doctor Directory -->
+    <section class="section-container" id="doctors">
+      <div class="container">
+        <div class="section-header">
+          <div class="header-left">
+            <span class="section-tag" id="departments">Clinical Departments</span>
+            <h2 class="section-title">Consulting Physicians and Surgeons</h2>
+            <p class="section-description">
+              Select a clinical department to view available timings, room numbers, and consultation fees.
+            </p>
+          </div>
+          <div class="filter-search-wrap">
+            <input type="search" id="doctorSearch" placeholder="Search by name or department..." class="search-input">
+          </div>
+        </div>
+
+        <!-- Department Filter Tabs -->
+        <div class="specialty-pills" id="specialtyFilterGroup" role="tablist">
+          <button class="filter-pill active" data-specialty="all">All Departments</button>
+          <button class="filter-pill" data-specialty="General Medicine">General Medicine</button>
+          <button class="filter-pill" data-specialty="Cardiology">Cardiology</button>
+          <button class="filter-pill" data-specialty="Pediatrics">Pediatrics</button>
+          <button class="filter-pill" data-specialty="Orthopedics">Orthopedics</button>
+          <button class="filter-pill" data-specialty="Dermatology">Dermatology</button>
+        </div>
+
+        <!-- Doctors Grid -->
+        <div class="doctors-grid" id="doctorsContainer">
+          <!-- Rendered dynamically by app.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Clinical Guidelines Section -->
+    <section class="section-container bg-subtle" id="facilities">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="section-tag">Clinical Protocols</span>
+          <h2 class="section-title">Patient Guidelines and OPD Facilities</h2>
+          <p class="section-description">
+            Information regarding clinic check-in procedures, consultations, and triage.
+          </p>
+        </div>
+
+        <div class="features-trio-grid">
+          <div class="feature-item">
+            <div class="feature-header">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4B98A3" stroke-width="2">
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 6 12 12 16 14" />
+              </svg>
+              <h4>Consultation Timings</h4>
+            </div>
+            <p>Morning sessions operate from 09:00 AM to 01:00 PM. Evening sessions operate from 04:30 PM to 08:30 PM.
+              Each consultation slot covers 15 to 30 minutes depending on clinical examination requirements.</p>
+          </div>
+          <div class="feature-item">
+            <div class="feature-header">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4B98A3" stroke-width="2">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+              </svg>
+              <h4>Token Calling Procedure</h4>
+            </div>
+            <p>Tokens are called in sequence. Please check in at the reception desk 10 minutes prior to your scheduled
+              slot. If your consultation is delayed due to an in-room emergency, the receptionist will update the queue
+              feed.</p>
+          </div>
+          <div class="feature-item">
+            <div class="feature-header">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4B98A3" stroke-width="2">
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+              </svg>
+              <h4>Walk-In Triage</h4>
+            </div>
+            <p>Physical walk-in patients are registered directly at the front desk. Acute or urgent medical complaints
+              undergo immediate clinical triage and are slotted into available openings.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- RECEPTIONIST / FRONT DESK DASHBOARD VIEW -->
+  <main id="adminPortal" class="hidden-view" role="main">
+    <div class="container admin-container">
+      <div class="admin-topbar">
+        <div>
+          <span class="badge-pill badge-accent">Front Desk Operations Console</span>
+          <h2>SHIFA CLINIC: OPD Queue Management</h2>
+          <p class="admin-subtitle">Patient intake, token progression, and appointment status controls.</p>
+          <div class="operator-strip">
+            <span class="operator-badge">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+              </svg>
+              Operator: Nurse (Desk 1)
+            </span>
+            <span class="desk-clock" id="deskClock"></span>
+            <button type="button" class="btn-logout" onclick="logoutStaff()">Log Out Staff</button>
+          </div>
+        </div>
+        <div class="admin-topbar-actions">
+          <button class="btn btn-secondary" onclick="openEmailOutboxModal()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect width="20" height="16" x="2" y="4" rx="2" />
+              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+            </svg>
+            Email Outbox (<span id="outboxCountBadge">0</span>)
+          </button>
+          <button class="btn btn-secondary" id="exportCsvBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
+            Export OPD Log
+          </button>
+          <button class="btn btn-primary" id="openWalkInModalBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="5" x2="12" y2="19" />
+              <line x1="5" y1="12" x2="19" y2="12" />
+            </svg>
+            Register Walk-In Patient
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick KPI Counters -->
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <span class="kpi-title">Total Bookings Today</span>
+          <span class="kpi-number" id="kpiTotal">0</span>
+          <span class="kpi-delta text-success">Registered Patients</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-title">Patients Waiting</span>
+          <span class="kpi-number text-warning" id="kpiWaiting">0</span>
+          <span class="kpi-delta">In Waiting Hall</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-title">In Consultation</span>
+          <span class="kpi-number text-primary" id="kpiInProgress">0</span>
+          <span class="kpi-delta">Currently with Doctor</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-title">Completed Today</span>
+          <span class="kpi-number text-success" id="kpiCompleted">0</span>
+          <span class="kpi-delta">Consultations Concluded</span>
+        </div>
+      </div>
+
+      <!-- Admin Control Filters -->
+      <div class="admin-filter-bar">
+        <div class="filter-group">
+          <label for="adminDoctorFilter">Filter by Physician:</label>
+          <select id="adminDoctorFilter" class="select-input">
+            <option value="all">All Doctors</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label for="adminStatusFilter">Status:</label>
+          <select id="adminStatusFilter" class="select-input">
+            <option value="all">All Statuses</option>
+            <option value="Booked">Booked</option>
+            <option value="Arrived">Arrived (In Waiting)</option>
+            <option value="In Progress">In Consultation</option>
+            <option value="Completed">Completed</option>
+            <option value="Cancelled">Cancelled</option>
+          </select>
+        </div>
+        <div class="filter-group search-flex">
+          <label for="adminSearchInput">Search Records:</label>
+          <input type="text" id="adminSearchInput" class="search-input"
+            placeholder="Search patient name, phone, or token...">
+        </div>
+      </div>
+
+      <!-- Bookings Management Table -->
+      <div class="table-responsive">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Token Number</th>
+              <th>Patient Name</th>
+              <th>Physician and Room</th>
+              <th>Scheduled Slot</th>
+              <th>Phone</th>
+              <th>Status</th>
+              <th>Reception Action</th>
+            </tr>
+          </thead>
+          <tbody id="adminBookingsTableBody">
+            <!-- Dynamically populated -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <!-- SETTINGS & FRONT DESK ACCOUNT MODAL (Accessible via 3-horizontal-lines button) -->
+  <!-- SETTINGS & FRONT DESK ACCOUNT MODAL (Accessible via 3-horizontal-lines button) -->
+  <dialog id="settingsDialog" class="modal-dialog settings-dialog" closedby="any">
+    <div class="modal-content settings-modal-content">
+      <div class="modal-header">
+        <div class="modal-header-info">
+          <span class="modal-badge">System Configuration</span>
+          <h3>Console & Staff Controls</h3>
+          <p class="modal-subtext">Manage active console session and administrative actions</p>
+        </div>
+        <button type="button" class="close-btn" onclick="closeSettingsModal()" aria-label="Close dialog">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="modal-body settings-modal-body">
+        <!-- Quick Directory Navigation -->
+        <div class="mobile-nav-group">
+          <div class="modal-section-title">Directory Navigation</div>
+          <div class="mobile-nav-pill-grid">
+            <a href="index.html" class="nav-dialog-item active">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                <polyline points="9 22 9 12 15 12 15 22" />
+              </svg>
+              <span>Home Portal</span>
+            </a>
+            <a href="departments.html" class="nav-dialog-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect width="18" height="18" x="3" y="3" rx="2" />
+                <path d="M3 9h18" />
+                <path d="M9 21V9" />
+              </svg>
+              <span>Clinical Departments</span>
+            </a>
+            <a href="doctors.html" class="nav-dialog-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+              </svg>
+              <span>Consulting Physicians</span>
+            </a>
+            <a href="queue.html" class="nav-dialog-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="8" y1="6" x2="21" y2="6" />
+                <line x1="8" y1="12" x2="21" y2="12" />
+                <line x1="8" y1="18" x2="21" y2="18" />
+                <line x1="3" y1="6" x2="3.01" y2="6" />
+                <line x1="3" y1="12" x2="3.01" y2="12" />
+                <line x1="3" y1="18" x2="3.01" y2="18" />
+              </svg>
+              <span>Live Queue Board</span>
+            </a>
+            <a href="contact.html" class="nav-dialog-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path
+                  d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+              </svg>
+              <span>Emergency & Contact</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Role Switch Card -->
+        <div class="settings-role-box">
+          <div class="role-box-info">
+            <div class="role-icon-pill">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4B98A3" stroke-width="2">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+              </svg>
+            </div>
+            <div>
+              <div class="role-label">ACTIVE PORTAL VIEW</div>
+              <div class="role-state" id="currentRoleText">Patient Portal</div>
+            </div>
+          </div>
+          <button type="button" class="btn btn-primary" id="modalPortalToggleBtn" onclick="togglePortalFromSettings()">
+            Switch to Front Desk Portal
+          </button>
+        </div>
+
+        <!-- Direct Actions Grid -->
+        <div class="settings-tools-section">
+          <div class="tools-title">Direct Administrative Actions</div>
+          <div class="tools-grid">
+            <button type="button" class="tool-action-btn" onclick="closeSettingsModal(); openWalkInModal();">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4B98A3" stroke-width="2">
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+              </svg>
+              <div>
+                <span class="tool-name">Register Walk-In Patient</span>
+                <span class="tool-desc">Create token for unbooked walk-in OPD case</span>
+              </div>
+            </button>
+            <button type="button" class="tool-action-btn" onclick="closeSettingsModal(); exportBookingsToCSV();">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4B98A3" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+              </svg>
+              <div>
+                <span class="tool-name">Export OPD Log (CSV)</span>
+                <span class="tool-desc">Download intake ledger for records archive</span>
+              </div>
+            </button>
+            <button type="button" class="tool-action-btn" onclick="closeSettingsModal(); openEmailOutboxModal();">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0284C7" stroke-width="2">
+                <rect width="20" height="16" x="2" y="4" rx="2" />
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+              </svg>
+              <div>
+                <span class="tool-name">Email Dispatch & Outbox</span>
+                <span class="tool-desc">View sent patient emails, delivery logs & relay settings</span>
+              </div>
+            </button>
+            <button type="button" class="tool-action-btn" onclick="resetDemoRecords();">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2">
+                <polyline points="1 4 1 10 7 10" />
+                <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10" />
+              </svg>
+              <div>
+                <span class="tool-name">Reset Sample Clinic Data</span>
+                <span class="tool-desc">Restore verified baseline demo appointments</span>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Clinic Reference Info -->
+        <div class="settings-meta-footer">
+          <div><span>Facility:</span> SHIFA CLINIC, High Road, Pernambut, Tirupattur District</div>
+          <div><span>Desk Line:</span> <a href="tel:+919342488966" style="color:inherit;text-decoration:none;">+91 93424
+              88966</a> | <span>Status:</span> OPD Sessions Online</div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="closeSettingsModal()">Close</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- STAFF CREDENTIAL AUTHENTICATION DIALOG -->
+  <dialog id="authDialog" class="modal-dialog auth-dialog" closedby="any">
+    <div class="modal-content auth-modal-content">
+      <div class="modal-header auth-modal-header">
+        <div class="auth-header-main">
+          <div class="auth-icon-circle">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4B98A3" stroke-width="2.2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+              <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+            </svg>
+          </div>
+          <div>
+            <span class="modal-badge">Restricted Access</span>
+            <h3>Staff Authentication</h3>
+            <p class="modal-subtext">Front Desk and OPD Console operator verification</p>
+          </div>
+        </div>
+        <button type="button" class="close-btn" onclick="closeAuthModal()" aria-label="Close dialog">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="modal-body auth-modal-body">
+        <div id="authErrorMsg" class="auth-error-banner hidden" role="alert"></div>
+
+        <form id="staffAuthForm" onsubmit="event.preventDefault(); submitStaffAuth();">
+          <div class="form-group">
+            <label class="form-label" for="authUsername">Staff Username</label>
+            <div class="input-icon-wrap">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+              <input type="text" id="authUsername" class="form-control"
+                placeholder="Enter username (e.g. doctor or nurse)" required autocomplete="username">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="authPassword">Staff Password</label>
+            <div class="input-icon-wrap">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+              </svg>
+              <input type="password" id="authPassword" class="form-control" placeholder="Enter staff password" required
+                autocomplete="current-password">
+            </div>
+          </div>
+          <div class="auth-modal-footer">
+            <button type="button" class="btn btn-secondary" onclick="closeAuthModal()">Cancel</button>
+            <button type="submit" class="btn btn-primary auth-submit-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
+                <polyline points="10 17 15 12 10 7" />
+                <line x1="15" y1="12" x2="3" y2="12" />
+              </svg>
+              Sign In to Front Desk
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- BOOKING DIALOG (Native Accessible Modal) -->
+  <dialog id="bookingDialog" class="modal-dialog" closedby="any">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div>
+          <span class="modal-badge">Appointment Booking</span>
+          <h3 id="modalDoctorName">Book Appointment</h3>
+          <p id="modalDoctorMeta" class="modal-subtext">Select an open slot and enter patient details</p>
+        </div>
+        <button type="button" class="close-btn" onclick="closeBookingModal()" aria-label="Close dialog">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Step 1: Slot Picker -->
+        <div id="bookingStep1" class="booking-step active">
+          <div class="form-group">
+            <label class="form-label" for="bookingDateInput">Consultation Date:</label>
+            <input type="date" id="bookingDateInput" class="select-input" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Available Slots for <span id="selectedDateDisplay"
+                class="text-primary font-bold">Today</span>:</label>
+            <div class="slot-legend">
+              <span class="legend-item"><span class="legend-dot available"></span> Available</span>
+              <span class="legend-item"><span class="legend-dot booked"></span> Reserved</span>
+            </div>
+
+            <div class="session-block">
+              <span class="session-title">Morning Session (09:00 AM to 01:00 PM)</span>
+              <div class="slots-container" id="morningSlotsContainer">
+                <!-- Injected via JS -->
+              </div>
+            </div>
+
+            <div class="session-block">
+              <span class="session-title">Evening Session (04:30 PM to 08:30 PM)</span>
+              <div class="slots-container" id="eveningSlotsContainer">
+                <!-- Injected via JS -->
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-ghost" onclick="closeBookingModal()">Cancel</button>
+            <button type="button" class="btn btn-primary" id="goToStep2Btn" disabled onclick="goToStep(2)">
+              Continue to Patient Details
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9 18 15 12 9 6" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Step 2: Patient Intake Details -->
+        <div id="bookingStep2" class="booking-step">
+          <form id="patientIntakeForm" onsubmit="event.preventDefault(); submitAppointment();">
+            <div class="booking-summary-strip">
+              <div>
+                <span class="summary-label">Physician</span>
+                <strong id="summaryDocName">-</strong>
+              </div>
+              <div>
+                <span class="summary-label">Scheduled Slot</span>
+                <strong id="summarySlotTime">-</strong>
+              </div>
+              <div>
+                <span class="summary-label">Consultation Fee</span>
+                <strong id="summaryFee" class="text-success">Rs. 500</strong>
+              </div>
+            </div>
+
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label class="form-label" for="patientName">Patient Full Name *</label>
+                <input type="text" id="patientName" class="form-control" placeholder="e.g. Rahul Sharma" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="patientPhone">Contact Number *</label>
+                <input type="tel" id="patientPhone" class="form-control" placeholder="10-digit mobile number"
+                  pattern="[0-9]{10}" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="patientEmail">Patient Email Address (for OPD Token Pass & Confirmation)
+                *</label>
+              <input type="email" id="patientEmail" class="form-control" placeholder="patient@gmail.com" required>
+              <span style="font-size: 11px; color: var(--text-muted); display: block; margin-top: 4px;">An official
+                digital OPD consultation pass and live token tracking link will be sent to this email.</span>
+            </div>
+
+            <div class="form-grid-3">
+              <div class="form-group">
+                <label class="form-label" for="patientAge">Age *</label>
+                <input type="number" id="patientAge" class="form-control" min="1" max="120" placeholder="e.g. 28"
+                  required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="patientGender">Gender *</label>
+                <select id="patientGender" class="form-control" required>
+                  <option value="">Select Gender</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="visitType">Visit Classification</label>
+                <select id="visitType" class="form-control">
+                  <option value="First Visit">First Consultation</option>
+                  <option value="Follow-up">Follow-up Consultation</option>
+                  <option value="Routine Checkup">Routine Medical Checkup</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="patientSymptoms">Primary Symptoms or Reason for Visit</label>
+              <textarea id="patientSymptoms" class="form-control" rows="2"
+                placeholder="Describe primary symptoms or reason for medical consultation..."></textarea>
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-ghost" onclick="goToStep(1)">Back</button>
+              <button type="submit" class="btn btn-primary btn-lg" id="confirmBookingBtn">
+                Confirm and Generate Token
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Step 3: Success Confirmation & Digital Pass -->
+        <div id="bookingStep3" class="booking-step">
+          <div class="confirmation-success-card" id="printableTicket">
+            <div class="success-icon-badge">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+            </div>
+            <span class="success-caption">Appointment Confirmed</span>
+            <h3 class="ticket-clinic-title">SHIFA CLINIC OPD Pass</h3>
+
+            <div class="ticket-token-display">
+              <span class="token-title">QUEUE TOKEN NUMBER</span>
+              <span class="token-code" id="confirmedTokenCode">SHF-105</span>
+              <span class="token-sub">Please present this token at the reception desk upon arrival</span>
+            </div>
+
+            <div class="ticket-details-grid">
+              <div class="ticket-detail-item">
+                <span class="detail-label">Patient Name:</span>
+                <span class="detail-value" id="ticketPatientName">-</span>
+              </div>
+              <div class="ticket-detail-item">
+                <span class="detail-label">Consulting Physician:</span>
+                <span class="detail-value" id="ticketDoctorName">-</span>
+              </div>
+              <div class="ticket-detail-item">
+                <span class="detail-label">Department:</span>
+                <span class="detail-value" id="ticketDepartment">-</span>
+              </div>
+              <div class="ticket-detail-item">
+                <span class="detail-label">Scheduled Time:</span>
+                <span class="detail-value" id="ticketScheduledTime">-</span>
+              </div>
+              <div class="ticket-detail-item">
+                <span class="detail-label">Consultation Room:</span>
+                <span class="detail-value" id="ticketRoom">-</span>
+              </div>
+              <div class="ticket-detail-item">
+                <span class="detail-label">Patient Email:</span>
+                <span class="detail-value" id="ticketPatientEmail">-</span>
+              </div>
+            </div>
+
+            <!-- Email Dispatched Notification Banner -->
+            <div class="email-confirmation-strip" id="ticketEmailStrip">
+              <div class="email-strip-header">
+                <span class="status-dot"></span>
+                <strong>Confirmation Email Dispatched</strong>
+              </div>
+              <p class="email-strip-sub">
+                Official OPD consultation pass and token slip sent to <strong id="ticketEmailRecipient">-</strong>
+              </p>
+              <div class="email-strip-actions">
+                <button type="button" class="btn btn-xs btn-outline" id="resendEmailBtn"
+                  onclick="resendCurrentBookingEmail()">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67" />
+                  </svg>
+                  Resend Email
+                </button>
+                <a id="openMailtoLink" href="#" class="btn btn-xs btn-secondary" target="_blank" rel="noopener">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect width="20" height="16" x="2" y="4" rx="2" />
+                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                  </svg>
+                  Open in Mail App
+                </a>
+                <a id="sendWhatsAppLink" href="#" class="btn btn-xs btn-success" target="_blank" rel="noopener">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path
+                      d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+                  </svg>
+                  WhatsApp Token Slip
+                </a>
+              </div>
+            </div>
+
+            <div class="ticket-qr-container">
+              <div class="qr-mock" id="ticketQrWrapper" title="Token verification code">
+                <div class="qr-pattern"></div>
+              </div>
+              <p class="qr-helper-text">Scan with smartphone camera to track live waiting queue online</p>
+            </div>
+          </div>
+
+          <div class="modal-footer print-hide">
+            <button type="button" class="btn btn-outline" onclick="window.print()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 6 2 18 2 18 9" />
+                <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
+                <rect x="6" y="14" width="12" height="8" />
+              </svg>
+              Print Consultation Pass
+            </button>
+            <button type="button" class="btn btn-primary" onclick="closeBookingModal()">Done</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </dialog>
+
+  <!-- WALK-IN APPOINTMENT DIALOG -->
+  <dialog id="walkInDialog" class="modal-dialog" closedby="any">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div>
+          <h3>Walk-In Patient Registration</h3>
+          <p class="modal-subtext">Register physical or emergency walk-in patient to active queue</p>
+        </div>
+        <button type="button" class="close-btn" onclick="closeWalkInModal()" aria-label="Close dialog">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="walkInForm" onsubmit="event.preventDefault(); submitWalkIn();">
+          <div class="form-group">
+            <label class="form-label" for="walkInDoctorSelect">Assign Physician *</label>
+            <select id="walkInDoctorSelect" class="form-control" required>
+            </select>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label" for="walkInPatientName">Patient Full Name *</label>
+              <input type="text" id="walkInPatientName" class="form-control" required placeholder="e.g. Sundar R.">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="walkInPhone">Phone Number *</label>
+              <input type="tel" id="walkInPhone" class="form-control" pattern="[0-9]{10}" required
+                placeholder="10-digit number">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="walkInEmail">Patient Email Address (for OPD Token Slip) *</label>
+            <input type="email" id="walkInEmail" class="form-control" placeholder="patient@gmail.com" required>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label" for="walkInAge">Age</label>
+              <input type="number" id="walkInAge" class="form-control" value="30">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="walkInPriority">Clinical Triage</label>
+              <select id="walkInPriority" class="form-control">
+                <option value="Normal">Standard Walk-In</option>
+                <option value="Emergency">Urgent Priority</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-ghost" onclick="closeWalkInModal()">Cancel</button>
+            <button type="submit" class="btn btn-primary">Generate Queue Token</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Global Toast Notification Container -->
+  <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+  <!-- Footer with High-Contrast Non-Colliding Styling -->
+  <footer class="main-footer" role="contentinfo">
+    <div class="container footer-grid">
+      <div class="footer-col brand-col">
+        <div class="footer-brand-wrap">
+          <div class="logo-mark">
+            <img src="assets/images/shifa-logo-emblem.png?v=3.2" alt="SHIFA CLINIC" class="logo-img">
+          </div>
+          <span class="footer-brand-name">SHIFA CLINIC</span>
+        </div>
+        <p class="footer-desc">
+          Outpatient Department scheduling and clinic queue management infrastructure.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-heading">Clinical Navigation</h4>
+        <ul class="footer-list">
+          <li><a href="departments.html">Clinical Departments</a></li>
+          <li><a href="doctors.html">Consulting Physicians</a></li>
+          <li><a href="queue.html">Live Queue Board</a></li>
+          <li><a href="contact.html">Emergency & Location</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-heading">Consultation Hours</h4>
+        <p class="footer-text"><strong>Morning Session:</strong> 09:00 AM to 01:00 PM</p>
+        <p class="footer-text"><strong>Evening Session:</strong> 04:30 PM to 08:30 PM</p>
+        <p class="footer-text"><strong>Emergency Intake:</strong> Open 24 Hours</p>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-heading">Clinic Location</h4>
+        <p class="footer-text">#42, High Road (Opposite Clock Tower, Near Old Bus Stand), Pernambut, Tirupattur
+          District, Tamil Nadu 635810</p>
+        <p class="footer-text">Desk Email: <a href="mailto:desk@shifaclinic.com">desk@shifaclinic.com</a></p>
+        <p class="footer-text">Reception Phone: <strong><a href="tel:+919342488966"
+              style="color:inherit;text-decoration:none;">+91 93424 88966</a></strong></p>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="footer-bottom-bar">
+        <span>SHIFA CLINIC. All rights reserved.</span>
+        <span>Pernambut, Tirupattur District, Tamil Nadu 635810</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- EMAIL OUTBOX & DISPATCH MODAL -->
+  <dialog id="emailOutboxDialog" class="modal-dialog email-outbox-dialog" closedby="any" style="max-width: 920px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div>
+          <span class="modal-badge">OPD Notification Service</span>
+          <h3>Patient Email Dispatch & Outbox</h3>
+          <p class="modal-subtext">Real-time confirmation delivery logs for all registered OP tokens</p>
+        </div>
+        <button type="button" class="close-btn" onclick="closeEmailOutboxModal()" aria-label="Close dialog">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- SMTP Status Banner -->
+        <div class="smtp-status-card" id="smtpStatusBanner">
+          <div class="smtp-status-info">
+            <span class="status-dot"></span>
+            <div>
+              <strong id="smtpStatusTitle">Relay Mode: Active Local Dispatch & Archival Outbox</strong>
+              <p style="margin: 0; font-size: 12px; color: var(--text-muted);" id="smtpStatusSubtitle">
+                All patient confirmation emails are generated, validated, and logged for immediate patient receipt.
+              </p>
+            </div>
+          </div>
+          <button type="button" class="btn btn-xs btn-outline" onclick="toggleSmtpConfigPanel()">
+            Configure Live SMTP Relay
+          </button>
+        </div>
+
+        <!-- Collapsible SMTP Config Panel -->
+        <div id="smtpConfigPanel" class="smtp-config-panel hidden">
+          <h4 style="font-size: 14px; margin-bottom: 12px; color: #0F172A;">Live SMTP Server Credentials (Optional
+            Relay)</h4>
+          <form id="smtpConfigForm" onsubmit="event.preventDefault(); saveSmtpSettings();">
+            <div class="form-grid-3">
+              <div class="form-group">
+                <label class="form-label" for="smtpHost">SMTP Host</label>
+                <input type="text" id="smtpHost" class="form-control" placeholder="smtp.gmail.com"
+                  value="smtp.gmail.com">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="smtpPort">Port</label>
+                <input type="number" id="smtpPort" class="form-control" value="587">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="smtpFromEmail">Sender Email</label>
+                <input type="email" id="smtpFromEmail" class="form-control" placeholder="noreply@shifaclinic.com">
+              </div>
+            </div>
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label class="form-label" for="smtpUser">Username / Account</label>
+                <input type="text" id="smtpUser" class="form-control" placeholder="clinic@gmail.com">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="smtpPass">App Password / Auth Token</label>
+                <input type="password" id="smtpPass" class="form-control" placeholder="16-character app password">
+              </div>
+            </div>
+            <div style="display: flex; gap: 8px; justify-content: flex-end; margin-top: 10px;">
+              <button type="button" class="btn btn-sm btn-ghost" onclick="toggleSmtpConfigPanel()">Close</button>
+              <button type="button" class="btn btn-sm btn-secondary" onclick="testSmtpConnection()">Test
+                Connection</button>
+              <button type="submit" class="btn btn-sm btn-primary">Save Relay Config</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Filter and Search -->
+        <div style="display: flex; gap: 12px; margin: 16px 0 12px 0;">
+          <input type="text" id="outboxSearchInput" class="search-input"
+            placeholder="Search by patient, token, or email..." oninput="filterEmailOutbox()">
+          <button type="button" class="btn btn-secondary" onclick="loadEmailOutbox()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67" />
+            </svg>
+            Refresh
+          </button>
+        </div>
+
+        <!-- Outbox Table -->
+        <div class="table-responsive" style="max-height: 380px; overflow-y: auto;">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Dispatched At</th>
+                <th>Token</th>
+                <th>Patient</th>
+                <th>Recipient Email</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="emailOutboxTableBody">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="closeEmailOutboxModal()">Close</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- EMAIL PREVIEW MODAL -->
+  <dialog id="emailPreviewDialog" class="modal-dialog" closedby="any" style="max-width: 680px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div>
+          <span class="modal-badge">HTML Clinical Slip</span>
+          <h3 id="previewEmailSubject">Email Preview</h3>
+          <p class="modal-subtext" id="previewEmailRecipient">To: -</p>
+        </div>
+        <button type="button" class="close-btn" onclick="closeEmailPreviewModal()" aria-label="Close dialog">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body" style="padding: 0; background: #F8FAFC;">
+        <iframe id="emailPreviewFrame" style="width: 100%; height: 500px; border: none; display: block;"></iframe>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="closeEmailPreviewModal()">Close</button>
+      </div>
+    </div>
+  </dialog>
+
+  <script src="app.js?v=3.2"></script>
+</body>
+
+</html>

@@ -1,0 +1,9 @@
+{
+  "enabled": false,
+  "host": "smtp.gmail.com",
+  "port": 587,
+  "user": "",
+  "password": "",
+  "fromEmail": "noreply@shifaclinic.com",
+  "fromName": "SHIFA CLINIC Pernambut"
+}
